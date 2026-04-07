@@ -1,13 +1,15 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['customer_id'])) {
+// FIX: Check for driver_id, not customer_id!
+if (!isset($_SESSION['driver_id'])) {
     header("Location: Driverlogin.html");
     exit();
 }
 
-$driver_status = 'Online'; // Default value, replace with DB query
-$checked = ($driver_status === 'Online') ? 'checked' : '';
+// Default value before JS kicks in
+$driver_status = 'Offline'; 
+$checked = '';
 ?>
 
 <!DOCTYPE html>

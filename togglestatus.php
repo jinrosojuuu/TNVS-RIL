@@ -1,35 +1,18 @@
 <?php
 session_start();
-include 'connection.php'; // Must set $conn
+include "connection.php";
 
-if (!isset($_SESSION['driver_id'])) {
-    echo "Not logged in";
-    exit;
-}
+$driver_id = $_SESSION['driver_id'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status'])) {
-    $status = $_POST['status']; // Online/Offline
-    $driver_id = $_SESSION['driver_id'];
+// FIX: Changed WHERE id= to WHERE driver_id=
+$query = mysqli_query($conn, "SELECT status FROM driver_tbl WHERE driver_id='$driver_id'");
+$row = mysqli_fetch_assoc($query);
 
-    // Prepare statement
-    $stmt = $conn->prepare("UPDATE driver_tbl SET status = ? WHERE driver_id = ?");
-    if (!$stmt) {
-        die("Prepare failed: " . $conn->error);
-    }
+$current = $row['status'];
+$newStatus = ($current == 'on') ? 'off' : 'on';
 
-    if (!$stmt->bind_param("si", $status, $driver_id)) {
-        die("Bind failed: " . $stmt->error);
-    }
+// FIX: Changed WHERE id= to WHERE driver_id=
+mysqli_query($conn, "UPDATE driver_tbl SET status='$newStatus' WHERE driver_id='$driver_id'");
 
-    if ($stmt->execute()) {
-        echo "Status updated to $status";
-    } else {
-        echo "Update failed: " . $stmt->error;
-    }
-
-    $stmt->close();
-    $conn->close();
-} else {
-    echo "No status provided or wrong request method";
-}
+echo ($newStatus == 'on') ? "ONLINE" : "OFFLINE";
 ?>

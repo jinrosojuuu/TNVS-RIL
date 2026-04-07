@@ -163,24 +163,7 @@ findBtn.addEventListener("click", () => {
   }, 10);
 });
 
-const toggle = document.getElementById("statusToggle");
-const statusText = document.getElementById("statusText");
-const onlineContent = document.getElementById("onlineContent");
-const offlineContent = document.getElementById("offlineContent");
 
-toggle.addEventListener("change", function () {
-  if (this.checked) {
-    statusText.textContent = "Online";
-    statusText.style.color = "#16a34a";  // Green for online 🎨
-    onlineContent.style.display = "block";
-    offlineContent.style.display = "none";
-  } else {
-    statusText.textContent = "Offline";
-    statusText.style.color = "#ef4444";  // Red for offline 🎨
-    onlineContent.style.display = "none";
-    offlineContent.style.display = "block";
-  }
-});
 
 // Set initial state on page load
 toggle.dispatchEvent(new Event('change'));

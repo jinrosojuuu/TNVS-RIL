@@ -48,34 +48,30 @@ if ($role === 'rider') {
 // ====================================================================
 else if ($role === 'driver') {
 
-    // 1. GET INPUTS
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // 2. VALIDATE INPUTS
     if (empty($username) || empty($password)) {
         echo "Please fill all fields!";
         exit();
     }
 
-    // 3. CHECK DATABASE
     $sql = "SELECT * FROM driver_tbl WHERE username='$username' AND password='$password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-
         $row = $result->fetch_assoc();
-        $_SESSION['driver_id'] = $row['driver_id']; // Store customer ID in session
-        $_SESSION['contact_no'] = $row['contact_no']; // Store contact number in session
-        $_SESSION['name'] = $row['name']; // Store name in session
-        $_SESSION['username'] = $username; // Store username in session
-
+        
+        // THE FIX: Save the driver's info into the server's memory!
+        $_SESSION['driver_id'] = $row['driver_id']; 
+        $_SESSION['name'] = $row['name']; 
+        $_SESSION['username'] = $username; 
+        
         echo "Login successful!";
     } else {
         echo "Invalid username or password!";
     }
 }
-
 
 // ====================================================================
 // PATH C: INVALID ROLE
